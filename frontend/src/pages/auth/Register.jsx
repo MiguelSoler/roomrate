@@ -268,6 +268,17 @@ export default function Register() {
                 {loading ? "Creando cuenta..." : "Crear cuenta"}
               </button>
 
+              <p className="text-xs leading-5 text-ui-text-secondary">
+                Responsable: [NOMBRE / DENOMINACIÓN]. Finalidad: crear y gestionar tu cuenta
+                en RoomRate, permitir el uso de la plataforma y gestionar tu perfil, estancia
+                y valoraciones. Derechos: acceso, rectificación, supresión y demás derechos en
+                [EMAIL]. Más información en{" "}
+                <Link to="/politica-privacidad" className="font-medium">
+                  la Política de Privacidad
+                </Link>
+                .
+              </p>
+
               <p className="text-sm text-ui-text-secondary">
                 ¿Ya tienes cuenta?{" "}
                 <Link to="/login" className="font-medium text-brand-primary">

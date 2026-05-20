@@ -94,6 +94,60 @@ function getPasswordErrorMessage(err) {
   }
 }
 
+function getProfileTabClass(active) {
+  const baseClassName =
+    "flex min-w-[168px] shrink-0 items-center justify-between border px-4 py-3 text-left transition-all duration-200 sm:min-w-0 sm:shrink";
+
+  if (active) {
+    return `${baseClassName} rounded-2xl border-brand-primary bg-blue-50 text-brand-primary shadow-sm sm:relative sm:z-10 sm:-mb-px sm:rounded-t-2xl sm:rounded-b-none sm:border-slate-300 sm:border-b-white sm:bg-white`;
+  }
+
+  return `${baseClassName} cursor-pointer rounded-2xl border-slate-300 bg-white text-ui-text shadow-sm hover:border-brand-primary hover:bg-blue-50/60 hover:text-brand-primary sm:rounded-xl sm:border-slate-400 sm:hover:-translate-y-0.5 sm:hover:shadow-md`;
+}
+
+function getProfileTabBadgeClass(active) {
+  return `rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+    active
+      ? "bg-blue-100 text-brand-primary"
+      : "bg-slate-100 text-ui-text-secondary"
+  }`;
+}
+
+function getProfilePanelRadiusClass(activeTab, hasCuentaTab) {
+  if (activeTab === "perfil") {
+    return "sm:rounded-b-2xl sm:rounded-tr-2xl sm:rounded-tl-none";
+  }
+
+  if (activeTab === "seguridad") {
+    return "sm:rounded-b-2xl sm:rounded-tl-2xl sm:rounded-tr-2xl";
+  }
+
+  if (activeTab === "foto") {
+    return hasCuentaTab
+      ? "sm:rounded-b-2xl sm:rounded-tl-2xl sm:rounded-tr-2xl"
+      : "sm:rounded-b-2xl sm:rounded-tl-2xl sm:rounded-tr-none";
+  }
+
+  return "sm:rounded-b-2xl sm:rounded-tl-2xl sm:rounded-tr-none";
+}
+
+function ProfileTabButton({ active, label, badge, onClick }) {
+  return (
+    <button
+      type="button"
+      role="tab"
+      aria-selected={active}
+      className={getProfileTabClass(active)}
+      onClick={onClick}
+    >
+      <span className="font-semibold">{label}</span>
+      <span className={getProfileTabBadgeClass(active)}>
+        {badge}
+      </span>
+    </button>
+  );
+}
+
 export default function Perfil() {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
@@ -124,8 +178,10 @@ export default function Perfil() {
 
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
   const [isDeletePhotoModalOpen, setIsDeletePhotoModalOpen] = useState(false);
-  const [isLeaveAdvertiserModalOpen, setIsLeaveAdvertiserModalOpen] = useState(false);
-  const [isDeleteAccountModalOpen, setIsDeleteAccountModalOpen] = useState(false);
+  const [isLeaveAdvertiserModalOpen, setIsLeaveAdvertiserModalOpen] =
+    useState(false);
+  const [isDeleteAccountModalOpen, setIsDeleteAccountModalOpen] =
+    useState(false);
 
   const avatarUrl = buildImageUrl(meta?.foto_perfil_url);
   const hasCuentaTab = meta?.rol === "user" || meta?.rol === "advertiser";
@@ -595,25 +651,49 @@ export default function Perfil() {
             {success ? <div className="alert-success">{success}</div> : null}
 
             {photoFeedback ? (
-              <div className={photoFeedback.type === "success" ? "alert-success" : "alert-error"}>
+              <div
+                className={
+                  photoFeedback.type === "success"
+                    ? "alert-success"
+                    : "alert-error"
+                }
+              >
                 {photoFeedback.message}
               </div>
             ) : null}
 
             {passwordFeedback ? (
-              <div className={passwordFeedback.type === "success" ? "alert-success" : "alert-error"}>
+              <div
+                className={
+                  passwordFeedback.type === "success"
+                    ? "alert-success"
+                    : "alert-error"
+                }
+              >
                 {passwordFeedback.message}
               </div>
             ) : null}
 
             {roleFeedback ? (
-              <div className={roleFeedback.type === "success" ? "alert-success" : "alert-error"}>
+              <div
+                className={
+                  roleFeedback.type === "success"
+                    ? "alert-success"
+                    : "alert-error"
+                }
+              >
                 {roleFeedback.message}
               </div>
             ) : null}
 
             {accountFeedback ? (
-              <div className={accountFeedback.type === "success" ? "alert-success" : "alert-error"}>
+              <div
+                className={
+                  accountFeedback.type === "success"
+                    ? "alert-success"
+                    : "alert-error"
+                }
+              >
                 {accountFeedback.message}
               </div>
             ) : null}
@@ -643,7 +723,9 @@ export default function Perfil() {
 
                     <div className="min-w-0">
                       <p className="truncate text-lg font-semibold text-ui-text">
-                        {[meta?.nombre, meta?.apellidos].filter(Boolean).join(" ") || "Usuario"}
+                        {[meta?.nombre, meta?.apellidos]
+                          .filter(Boolean)
+                          .join(" ") || "Usuario"}
                       </p>
                       <p className="truncate text-sm text-ui-text-secondary">
                         {meta?.email || "—"}
@@ -658,122 +740,51 @@ export default function Perfil() {
             </div>
 
             <div className="space-y-0">
-              <div
-                role="tablist"
-                aria-label="Secciones del perfil"
-                className={`grid grid-cols-2 gap-2 ${
-                  hasCuentaTab ? "lg:grid-cols-4" : "sm:grid-cols-3"
-                }`}
-              >
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={activeTab === "perfil"}
-                  className={`flex items-center justify-between border px-4 py-3 text-left transition-all duration-200 ${
-                    activeTab === "perfil"
-                      ? "relative z-10 -mb-px rounded-t-2xl rounded-b-none border-slate-300 border-b-white bg-white text-brand-primary shadow-sm"
-                      : "cursor-pointer rounded-xl border-slate-400 bg-white text-ui-text shadow-sm hover:-translate-y-0.5 hover:border-brand-primary hover:bg-blue-50/60 hover:text-brand-primary hover:shadow-md"
+              <div className="overflow-x-auto pb-2 sm:overflow-visible sm:pb-0">
+                <div
+                  role="tablist"
+                  aria-label="Secciones del perfil"
+                  className={`flex min-w-max gap-2 sm:grid sm:min-w-0 ${
+                    hasCuentaTab ? "sm:grid-cols-2 lg:grid-cols-4" : "sm:grid-cols-3"
                   }`}
-                  onClick={() => handleSelectTab("perfil")}
                 >
-                  <span className="font-semibold">Perfil</span>
-                  <span
-                    className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-                      activeTab === "perfil"
-                        ? "bg-blue-100 text-brand-primary"
-                        : "bg-slate-100 text-ui-text-secondary"
-                    }`}
-                  >
-                    Datos
-                  </span>
-                </button>
+                  <ProfileTabButton
+                    active={activeTab === "perfil"}
+                    label="Perfil"
+                    badge="Datos"
+                    onClick={() => handleSelectTab("perfil")}
+                  />
 
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={activeTab === "seguridad"}
-                  className={`flex items-center justify-between border px-4 py-3 text-left transition-all duration-200 ${
-                    activeTab === "seguridad"
-                      ? "relative z-10 -mb-px rounded-t-2xl rounded-b-none border-slate-300 border-b-white bg-white text-brand-primary shadow-sm"
-                      : "cursor-pointer rounded-xl border-slate-400 bg-white text-ui-text shadow-sm hover:-translate-y-0.5 hover:border-brand-primary hover:bg-blue-50/60 hover:text-brand-primary hover:shadow-md"
-                  }`}
-                  onClick={() => handleSelectTab("seguridad")}
-                >
-                  <span className="font-semibold">Seguridad</span>
-                  <span
-                    className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-                      activeTab === "seguridad"
-                        ? "bg-blue-100 text-brand-primary"
-                        : "bg-slate-100 text-ui-text-secondary"
-                    }`}
-                  >
-                    Contraseña
-                  </span>
-                </button>
+                  <ProfileTabButton
+                    active={activeTab === "seguridad"}
+                    label="Seguridad"
+                    badge="Contraseña"
+                    onClick={() => handleSelectTab("seguridad")}
+                  />
 
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={activeTab === "foto"}
-                  className={`flex items-center justify-between border px-4 py-3 text-left transition-all duration-200 ${
-                    activeTab === "foto"
-                      ? "relative z-10 -mb-px rounded-t-2xl rounded-b-none border-slate-300 border-b-white bg-white text-brand-primary shadow-sm"
-                      : "cursor-pointer rounded-xl border-slate-400 bg-white text-ui-text shadow-sm hover:-translate-y-0.5 hover:border-brand-primary hover:bg-blue-50/60 hover:text-brand-primary hover:shadow-md"
-                  }`}
-                  onClick={() => handleSelectTab("foto")}
-                >
-                  <span className="font-semibold">Foto</span>
-                  <span
-                    className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-                      activeTab === "foto"
-                        ? "bg-blue-100 text-brand-primary"
-                        : "bg-slate-100 text-ui-text-secondary"
-                    }`}
-                  >
-                    Perfil
-                  </span>
-                </button>
+                  <ProfileTabButton
+                    active={activeTab === "foto"}
+                    label="Foto"
+                    badge="Perfil"
+                    onClick={() => handleSelectTab("foto")}
+                  />
 
-                {hasCuentaTab ? (
-                  <button
-                    type="button"
-                    role="tab"
-                    aria-selected={activeTab === "cuenta"}
-                    className={`flex items-center justify-between border px-4 py-3 text-left transition-all duration-200 ${
-                      activeTab === "cuenta"
-                        ? "relative z-10 -mb-px rounded-t-2xl rounded-b-none border-slate-300 border-b-white bg-white text-brand-primary shadow-sm"
-                        : "cursor-pointer rounded-xl border-slate-400 bg-white text-ui-text shadow-sm hover:-translate-y-0.5 hover:border-brand-primary hover:bg-blue-50/60 hover:text-brand-primary hover:shadow-md"
-                    }`}
-                    onClick={() => handleSelectTab("cuenta")}
-                  >
-                    <span className="font-semibold">Cuenta</span>
-                    <span
-                      className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-                        activeTab === "cuenta"
-                          ? "bg-blue-100 text-brand-primary"
-                          : "bg-slate-100 text-ui-text-secondary"
-                      }`}
-                    >
-                      Rol
-                    </span>
-                  </button>
-                ) : null}
+                  {hasCuentaTab ? (
+                    <ProfileTabButton
+                      active={activeTab === "cuenta"}
+                      label="Cuenta"
+                      badge="Rol"
+                      onClick={() => handleSelectTab("cuenta")}
+                    />
+                  ) : null}
+                </div>
               </div>
 
               <div
-                className={`border border-slate-300 bg-gradient-to-br from-white via-slate-50 to-sky-50 p-3 shadow-sm sm:p-4 md:p-5 ${
-                  activeTab === "perfil"
-                    ? "rounded-b-2xl rounded-tr-2xl rounded-tl-none"
-                    : activeTab === "seguridad"
-                      ? hasCuentaTab
-                        ? "rounded-b-2xl rounded-tl-2xl rounded-tr-2xl"
-                        : "rounded-b-2xl rounded-tl-2xl rounded-tr-2xl"
-                      : activeTab === "foto"
-                        ? hasCuentaTab
-                          ? "rounded-b-2xl rounded-tl-2xl rounded-tr-2xl"
-                          : "rounded-b-2xl rounded-tl-2xl rounded-tr-none"
-                        : "rounded-b-2xl rounded-tl-2xl rounded-tr-none"
-                }`}
+                className={`rounded-2xl border border-slate-300 bg-gradient-to-br from-white via-slate-50 to-sky-50 p-3 shadow-sm sm:p-4 md:p-5 ${getProfilePanelRadiusClass(
+                  activeTab,
+                  hasCuentaTab
+                )}`}
               >
                 {activeTab === "perfil" ? (
                   <section className="space-y-4">
@@ -907,7 +918,10 @@ export default function Perfil() {
                         </div>
 
                         <div>
-                          <label className="label" htmlFor="confirm_new_password">
+                          <label
+                            className="label"
+                            htmlFor="confirm_new_password"
+                          >
                             Confirmar nueva contraseña
                           </label>
                           <input
@@ -938,7 +952,9 @@ export default function Perfil() {
                           disabled={changingPassword}
                           aria-busy={changingPassword}
                         >
-                          {changingPassword ? "Actualizando..." : "Cambiar contraseña"}
+                          {changingPassword
+                            ? "Actualizando..."
+                            : "Cambiar contraseña"}
                         </button>
                       </div>
                     </form>
@@ -1042,7 +1058,8 @@ export default function Perfil() {
                             Convertirse en anunciante
                           </h2>
                           <p className="mt-1 text-sm text-ui-text-secondary">
-                            Crea tu primer piso y tu cuenta pasará a rol anunciante.
+                            Crea tu primer piso y tu cuenta pasará a rol
+                            anunciante.
                           </p>
                         </div>
 
@@ -1065,7 +1082,8 @@ export default function Perfil() {
                             Dejar de ser anunciante
                           </h2>
                           <p className="mt-1 text-sm text-ui-text-secondary">
-                            Volverás a rol usuario. Antes debes asegurarte de no tener pisos activos.
+                            Volverás a rol usuario. Antes debes asegurarte de no
+                            tener pisos activos.
                           </p>
                         </div>
 
@@ -1087,7 +1105,8 @@ export default function Perfil() {
                           Eliminar cuenta
                         </h2>
                         <p className="mt-1 text-sm text-ui-text-secondary">
-                          Desactiva tu cuenta y cierra tu sesión en este dispositivo.
+                          Desactiva tu cuenta y cierra tu sesión en este
+                          dispositivo.
                         </p>
                       </div>
 
@@ -1226,7 +1245,8 @@ export default function Perfil() {
       >
         <div className="space-y-4">
           <p className="text-sm text-ui-text-secondary">
-            Vas a eliminar tu cuenta. Se cerrará tu sesión y no podrás acceder con este usuario.
+            Vas a eliminar tu cuenta. Se cerrará tu sesión y no podrás acceder
+            con este usuario.
           </p>
 
           <div className="rounded-lg border border-rose-200 bg-rose-50 p-4">

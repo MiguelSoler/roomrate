@@ -1119,7 +1119,7 @@ export default function PisoManagerDetail() {
               </div>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-3 md:space-y-0">
               <div className="md:hidden">
                 <div className="responsive-scroll">
                   <div

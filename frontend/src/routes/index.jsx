@@ -36,6 +36,10 @@ import ScrollToTop from "../components/layout/ScrollToTop.jsx";
 import AuthGuard from "../middleware/authGuard.jsx";
 import RoleGuard from "../middleware/roleGuard.jsx";
 
+import AvisoLegal from "../pages/legal/AvisoLegal.jsx";
+import PoliticaPrivacidad from "../pages/legal/PoliticaPrivacidad.jsx";
+import PoliticaCookies from "../pages/legal/PoliticaCookies.jsx";
+
 export default function AppRoutes() {
   return (
     <Routes>
@@ -50,6 +54,10 @@ export default function AppRoutes() {
         {/* Público */}
         <Route path="habitaciones" element={<HabitacionesList />} />
         <Route path="habitaciones/:habitacionId" element={<HabitacionDetail />} />
+        
+        <Route path="/aviso-legal" element={<AvisoLegal />} />
+        <Route path="/politica-privacidad" element={<PoliticaPrivacidad />} />
+        <Route path="/politica-cookies" element={<PoliticaCookies />} />
 
         {/* Privado */}
         <Route element={<AuthGuard />}>
