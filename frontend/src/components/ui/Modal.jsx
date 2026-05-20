@@ -102,17 +102,23 @@ export default function Modal({
   const headerClass =
     modalTone === "danger"
       ? "flex items-center justify-between gap-3 border-b border-red-200 bg-red-50 p-4"
-      : "flex items-center justify-between gap-3 border-b border-ui-border p-4";
-
+      : modalTone === "warning"
+        ? "flex items-center justify-between gap-3 border-b border-amber-200 bg-amber-50 p-4"
+        : "flex items-center justify-between gap-3 border-b border-ui-border p-4";
+  
   const titleClass =
     modalTone === "danger"
       ? "text-base font-semibold text-red-700"
-      : "text-base font-semibold text-ui-text";
-
+      : modalTone === "warning"
+        ? "text-base font-semibold text-amber-800"
+        : "text-base font-semibold text-ui-text";
+  
   const closeBtnClass =
     modalTone === "danger"
       ? "btn btn-sm border border-red-200 bg-white text-red-700 hover:bg-red-50 hover:text-red-700"
-      : "btn btn-ghost btn-sm";
+      : modalTone === "warning"
+        ? "btn btn-sm border border-amber-200 bg-white text-amber-800 hover:bg-amber-50 hover:text-amber-800"
+        : "btn btn-ghost btn-sm";
 
   function handleOverlayClick() {
     if (closeOnOverlay) onClose?.();
