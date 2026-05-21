@@ -5,13 +5,13 @@ import roomRateLogo from "../../assets/branding/roomrate-logo.png";
 import Modal from "../ui/Modal.jsx";
 
 const baseLink =
-  "inline-flex items-center rounded-md px-3 py-1.5 text-sm font-medium transition-colors duration-150";
+  "inline-flex items-center whitespace-nowrap rounded-xl border px-3.5 py-2 text-sm font-semibold shadow-sm transition-all duration-150";
 
 const desktopNavLink = ({ isActive }) =>
   `${baseLink} ${
     isActive
-      ? "bg-blue-100/80 text-brand-primary"
-      : "text-ui-text hover:bg-white/70"
+      ? "border-brand-primary bg-white text-brand-primary shadow-md"
+      : "border-white/70 bg-white/45 text-ui-text hover:-translate-y-0.5 hover:border-brand-primary hover:bg-white hover:text-brand-primary hover:shadow-md"
   }`;
 
 const mobileNavLink = ({ isActive }) =>
@@ -45,6 +45,21 @@ function MenuIcon({ open = false }) {
         </>
       )}
     </svg>
+  );
+}
+
+function UserGreeting({ name, compact = false }) {
+  return (
+    <span
+      className={`min-w-0 truncate ${
+        compact
+          ? "max-w-[140px] rounded-full border border-white/80 bg-white/60 px-3 py-1.5 text-sm font-bold text-ui-text shadow-sm sm:max-w-[190px]"
+          : "max-w-[190px] text-[15px] font-semibold text-ui-text"
+      }`}
+      title={name ? `Hola, ${name}` : "Hola"}
+    >
+      Hola{name ? `, ${name}` : ""}
+    </span>
   );
 }
 
@@ -88,97 +103,119 @@ export default function Navbar() {
   return (
     <>
       <header className="border-b border-blue-300 bg-gradient-to-r from-blue-300 via-sky-200 to-slate-100 shadow-md">
-        <div className="app-container py-3">
+        <div className="mx-auto w-full max-w-[1600px] px-4 py-3 md:px-6 lg:px-8 2xl:px-10">
           <div className="flex items-center justify-between gap-4">
-            <div className="flex min-w-0 items-center gap-3">
+            <div className="flex shrink-0 items-center gap-5">
               <Link
                 to="/"
-                className="flex min-w-0 items-center gap-3 transition-opacity duration-150 hover:opacity-90"
+                className="flex shrink-0 items-center gap-3 transition-opacity duration-150 hover:opacity-90"
+                onClick={closeMobileMenu}
               >
                 <img
                   src={roomRateLogo}
                   alt="RoomRate"
-                  className="h-10 w-auto shrink-0"
+                  className="h-11 w-auto shrink-0"
                 />
-            
-                <span className="truncate font-heading text-xl font-bold tracking-tight text-ui-text">
+
+                <span className="font-heading text-[22px] font-bold tracking-tight text-ui-text">
                   RoomRate
                 </span>
               </Link>
+
+              <span className="hidden h-10 w-[2px] rounded-full bg-slate-700/25 shadow-sm 2xl:block" />
             </div>
-    
-            <nav className="hidden xl:flex xl:items-center xl:gap-5 2xl:gap-8">
+
+            <nav className="hidden flex-1 items-center justify-end gap-4 2xl:flex">
               <NavLink className={desktopNavLink} to="/habitaciones">
                 Habitaciones
               </NavLink>
-    
+
               {!isAuthenticated ? (
                 <div className="flex items-center gap-2">
                   <Link className="btn btn-secondary btn-sm" to="/login">
                     Login
                   </Link>
+
                   <Link className="btn btn-primary btn-sm" to="/register">
                     Registro
                   </Link>
                 </div>
               ) : (
-                <div className="flex min-w-0 items-center gap-1.5 2xl:gap-2">
-                  <NavLink className={desktopNavLink} to="/mi-estancia">
-                    Mi estancia
-                  </NavLink>
-                  <NavLink className={desktopNavLink} to="/convivientes">
-                    Convivientes
-                  </NavLink>
-                  <NavLink className={desktopNavLink} to="/mis-votos">
-                    Mis votos
-                  </NavLink>
-                  <NavLink className={desktopNavLink} to="/mi-reputacion">
-                    Mi reputación
-                  </NavLink>
-                  <NavLink className={desktopNavLink} to="/votos-recibidos">
-                    Votos recibidos
-                  </NavLink>
-                  <NavLink className={desktopNavLink} to="/perfil">
-                    Perfil
-                  </NavLink>
-              
-                  {panelPath ? (
-                    <Link className="btn btn-secondary btn-sm" to={panelPath}>
-                      Panel
-                    </Link>
-                  ) : null}
-  
-                  <span className="max-w-[150px] truncate text-sm text-ui-text-secondary 2xl:max-w-none">
-                    Hola{user?.nombre ? `, ${user.nombre}` : ""}
-                  </span>
-                
-                  <button
-                    className="btn btn-danger btn-sm"
-                    type="button"
-                    onClick={requestLogout}
-                  >
-                    Salir
-                  </button>
-                </div>
+                <>
+                  <div className="flex items-center gap-2">
+                    <NavLink className={desktopNavLink} to="/mi-estancia">
+                      Mi estancia
+                    </NavLink>
+                              
+                    <NavLink className={desktopNavLink} to="/convivientes">
+                      Convivientes
+                    </NavLink>
+                              
+                    <NavLink className={desktopNavLink} to="/mis-votos">
+                      Mis votos
+                    </NavLink>
+                              
+                    <NavLink className={desktopNavLink} to="/mi-reputacion">
+                      Mi reputación
+                    </NavLink>
+                              
+                    <NavLink className={desktopNavLink} to="/votos-recibidos">
+                      Votos recibidos
+                    </NavLink>
+                              
+                    <NavLink className={desktopNavLink} to="/perfil">
+                      Perfil
+                    </NavLink>
+                  </div>
+                              
+                  <div className="ml-4 flex items-center gap-3 border-l border-blue-300/70 pl-5">
+                    <div className="flex items-center gap-3 rounded-2xl border border-white/80 bg-white/55 px-3 py-2 shadow-sm backdrop-blur">
+                      {panelPath ? (
+                        <Link
+                          className="btn btn-sm min-w-[104px] whitespace-nowrap border border-emerald-300 bg-emerald-100 text-[15px] font-bold text-emerald-800 shadow-sm hover:bg-emerald-200 hover:text-emerald-900"
+                          to={panelPath}
+                        >
+                          Panel privado
+                        </Link>
+                      ) : null}
+                  
+                      <UserGreeting name={user?.nombre} />
+                    
+                      <button
+                        className="btn btn-danger min-w-[120px] whitespace-nowrap px-5 py-2.5 text-[15px] font-bold shadow-sm"
+                        type="button"
+                        onClick={requestLogout}
+                      >
+                        Salir
+                      </button>
+                    </div>
+                  </div>
+                </>
               )}
             </nav>
-            
-            <button
-              type="button"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/70 bg-white/80 text-ui-text shadow-sm transition-colors hover:bg-white xl:hidden"
-              aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
-              aria-expanded={isMobileMenuOpen}
-              aria-controls="mobile-navbar-menu"
-              onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-            >
-              <MenuIcon open={isMobileMenuOpen} />
-            </button>
+
+            <div className="flex min-w-0 items-center gap-2 2xl:hidden">
+              {isAuthenticated ? (
+                <UserGreeting name={user?.nombre} compact />
+              ) : null}
+
+              <button
+                type="button"
+                className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/70 bg-white/80 text-ui-text shadow-sm transition-colors hover:bg-white"
+                aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+                aria-expanded={isMobileMenuOpen}
+                aria-controls="mobile-navbar-menu"
+                onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+              >
+                <MenuIcon open={isMobileMenuOpen} />
+              </button>
+            </div>
           </div>
-            
+
           {isMobileMenuOpen ? (
             <div
               id="mobile-navbar-menu"
-              className="mt-4 max-h-[calc(100dvh-88px)] overflow-y-auto rounded-2xl border border-white/70 bg-white/85 p-3 shadow-md backdrop-blur xl:hidden"
+              className="mt-4 max-h-[calc(100dvh-88px)] overflow-y-auto rounded-2xl border border-white/70 bg-white/85 p-3 shadow-md backdrop-blur 2xl:hidden"
             >
               <div className="space-y-2">
                 <NavLink
@@ -188,7 +225,7 @@ export default function Navbar() {
                 >
                   Habitaciones
                 </NavLink>
-          
+
                 {!isAuthenticated ? (
                   <>
                     <Link
@@ -198,7 +235,7 @@ export default function Navbar() {
                     >
                       Login
                     </Link>
-                
+
                     <Link
                       className="block rounded-xl bg-brand-primary px-4 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90"
                       to="/register"
@@ -216,7 +253,7 @@ export default function Navbar() {
                     >
                       Mi estancia
                     </NavLink>
-                
+
                     <NavLink
                       className={mobileNavLink}
                       to="/convivientes"
@@ -224,7 +261,7 @@ export default function Navbar() {
                     >
                       Convivientes
                     </NavLink>
-                
+
                     <NavLink
                       className={mobileNavLink}
                       to="/mis-votos"
@@ -232,7 +269,7 @@ export default function Navbar() {
                     >
                       Mis votos
                     </NavLink>
-                
+
                     <NavLink
                       className={mobileNavLink}
                       to="/mi-reputacion"
@@ -240,7 +277,7 @@ export default function Navbar() {
                     >
                       Mi reputación
                     </NavLink>
-                
+
                     <NavLink
                       className={mobileNavLink}
                       to="/votos-recibidos"
@@ -248,7 +285,7 @@ export default function Navbar() {
                     >
                       Votos recibidos
                     </NavLink>
-                
+
                     <NavLink
                       className={mobileNavLink}
                       to="/perfil"
@@ -256,21 +293,17 @@ export default function Navbar() {
                     >
                       Perfil
                     </NavLink>
-                
+
                     {panelPath ? (
                       <Link
-                        className="block rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-ui-text transition-colors hover:bg-slate-50"
+                        className="block rounded-xl border border-emerald-300 bg-emerald-100 px-4 py-3 text-sm font-bold text-emerald-800 shadow-sm transition-colors hover:bg-emerald-200 hover:text-emerald-900"
                         to={panelPath}
                         onClick={closeMobileMenu}
                       >
                         Panel
                       </Link>
                     ) : null}
-  
-                    <div className="rounded-xl border border-sky-100 bg-sky-50 px-4 py-3 text-sm text-ui-text-secondary">
-                      Hola{user?.nombre ? `, ${user.nombre}` : ""}
-                    </div>
-                  
+
                     <button
                       className="btn btn-danger w-full"
                       type="button"
@@ -285,6 +318,7 @@ export default function Navbar() {
           ) : null}
         </div>
       </header>
+
       <Modal
         open={isLogoutModalOpen}
         title="Confirmar salida"
@@ -299,13 +333,13 @@ export default function Navbar() {
           <p className="text-sm text-ui-text-secondary">
             Vas a cerrar tu sesión actual.
           </p>
-        
+
           <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
             <p className="text-sm font-semibold text-amber-800">
               Tendrás que volver a iniciar sesión para acceder a tu cuenta.
             </p>
           </div>
-        
+
           <div className="flex items-center justify-end gap-2">
             <button
               type="button"
@@ -314,7 +348,7 @@ export default function Navbar() {
             >
               Cancelar
             </button>
-        
+
             <button
               type="button"
               className="btn btn-sm border border-amber-300 bg-amber-100 text-amber-800 hover:bg-amber-200 hover:text-amber-800"
