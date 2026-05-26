@@ -5,17 +5,17 @@ import roomRateLogo from "../../assets/branding/roomrate-logo.png";
 import Modal from "../ui/Modal.jsx";
 
 const baseLink =
-  "inline-flex items-center whitespace-nowrap rounded-xl border px-3.5 py-2 text-sm font-semibold shadow-sm transition-all duration-150";
+  "inline-flex items-center whitespace-nowrap rounded-xl border px-4 py-2.5 text-[15px] font-bold shadow-sm transition-all duration-150";
 
 const desktopNavLink = ({ isActive }) =>
   `${baseLink} ${
     isActive
       ? "border-brand-primary bg-white text-brand-primary shadow-md"
-      : "border-white/70 bg-white/45 text-ui-text hover:-translate-y-0.5 hover:border-brand-primary hover:bg-white hover:text-brand-primary hover:shadow-md"
+      : "border-white/80 bg-white/60 text-ui-text hover:-translate-y-0.5 hover:border-brand-primary hover:bg-white hover:text-brand-primary hover:shadow-md"
   }`;
 
 const mobileNavLink = ({ isActive }) =>
-  `block rounded-xl px-4 py-3 text-sm font-medium transition-colors duration-150 ${
+  `block rounded-xl px-4 py-3.5 text-base font-bold transition-colors duration-150 ${
     isActive
       ? "bg-blue-100 text-brand-primary"
       : "text-ui-text hover:bg-white/80"
@@ -92,6 +92,13 @@ export default function Navbar() {
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
+  
+  const panelLabel =
+    user?.rol === "admin"
+      ? "Administración"
+      : user?.rol === "advertiser"
+        ? "Mis anuncios"
+        : "Panel";
 
   const panelPath =
     user?.rol === "admin"
@@ -125,18 +132,24 @@ export default function Navbar() {
               <span className="hidden h-10 w-[2px] rounded-full bg-slate-700/25 shadow-sm 2xl:block" />
             </div>
 
-            <nav className="hidden flex-1 items-center justify-end gap-4 2xl:flex">
+            <nav className="hidden flex-1 items-center justify-end gap-10 2xl:flex">
               <NavLink className={desktopNavLink} to="/habitaciones">
                 Habitaciones
               </NavLink>
 
               {!isAuthenticated ? (
                 <div className="flex items-center gap-2">
-                  <Link className="btn btn-secondary btn-sm" to="/login">
+                  <Link
+                    className="btn btn-secondary min-w-[96px] px-5 py-2.5 text-[15px] font-bold"
+                    to="/login"
+                  >
                     Login
                   </Link>
 
-                  <Link className="btn btn-primary btn-sm" to="/register">
+                  <Link
+                    className="btn btn-primary min-w-[112px] px-5 py-2.5 text-[15px] font-bold shadow-sm"
+                    to="/register"
+                  >
                     Registro
                   </Link>
                 </div>
@@ -162,10 +175,7 @@ export default function Navbar() {
                     <NavLink className={desktopNavLink} to="/votos-recibidos">
                       Votos recibidos
                     </NavLink>
-                              
-                    <NavLink className={desktopNavLink} to="/perfil">
-                      Perfil
-                    </NavLink>
+                 
                   </div>
                               
                   <div className="ml-4 flex items-center gap-3 border-l border-blue-300/70 pl-5">
@@ -175,10 +185,17 @@ export default function Navbar() {
                           className="btn btn-sm min-w-[104px] whitespace-nowrap border border-emerald-300 bg-emerald-100 text-[15px] font-bold text-emerald-800 shadow-sm hover:bg-emerald-200 hover:text-emerald-900"
                           to={panelPath}
                         >
-                          Panel privado
+                          {panelLabel}
                         </Link>
                       ) : null}
-                  
+
+                      <Link
+                        className="btn btn-sm min-w-[96px] whitespace-nowrap border border-blue-300 bg-blue-100 text-[15px] font-bold text-brand-primary shadow-sm hover:bg-blue-200 hover:text-brand-primary"
+                        to="/perfil"
+                      >
+                        Perfil
+                      </Link> 
+                                     
                       <UserGreeting name={user?.nombre} />
                     
                       <button
@@ -229,7 +246,7 @@ export default function Navbar() {
                 {!isAuthenticated ? (
                   <>
                     <Link
-                      className="block rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-ui-text transition-colors hover:bg-slate-50"
+                      className="block rounded-xl border border-slate-200 bg-white px-4 py-3.5 text-base font-bold text-ui-text transition-colors hover:bg-slate-50"
                       to="/login"
                       onClick={closeMobileMenu}
                     >
@@ -237,7 +254,7 @@ export default function Navbar() {
                     </Link>
 
                     <Link
-                      className="block rounded-xl bg-brand-primary px-4 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90"
+                      className="block rounded-xl bg-brand-primary px-4 py-3.5 text-base font-bold text-white shadow-sm transition-opacity hover:opacity-90"
                       to="/register"
                       onClick={closeMobileMenu}
                     >
@@ -300,7 +317,7 @@ export default function Navbar() {
                         to={panelPath}
                         onClick={closeMobileMenu}
                       >
-                        Panel
+                        {panelLabel}
                       </Link>
                     ) : null}
 
