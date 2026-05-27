@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Modal from "../../components/ui/Modal.jsx";
 import MetricSummaryCard from "../../components/ui/MetricSummaryCard.jsx";
 import ResponsiveDisclosureCard from "../../components/ui/ResponsiveDisclosureCard.jsx";
+import RatingValue from "../../components/ui/RatingValue.jsx";
 import useAuth from "../../hooks/useAuth.js";
 import { getUserVotesSummary } from "../../services/votoUsuarioService.js";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +19,16 @@ function formatAverage(value) {
   const n = Number(value);
   if (!Number.isFinite(n)) return "—";
   return n.toFixed(1);
+}
+
+function RatingAverage({ value }) {
+  const formatted = formatAverage(value);
+
+  if (formatted === "—") {
+    return "—";
+  }
+
+  return <RatingValue value={formatted} />;
 }
 
 function getInitials(profile) {
@@ -69,7 +80,9 @@ function DistributionBlock({ title, values, tone = "slate" }) {
       <div className="mt-4 space-y-2">
         {[5, 4, 3, 2, 1].map((score) => (
           <div key={score} className="flex items-center justify-between gap-3 text-sm">
-            <span className={classes.row}>{score}/5</span>
+            <span className={classes.row}>
+              <RatingValue value={score} />
+            </span>
             <span className={`font-semibold ${classes.count}`}>
               {values?.[score] ?? 0}
             </span>
@@ -280,7 +293,7 @@ export default function MiReputacion() {
                     <div className="grid grid-cols-4 gap-1.5 sm:grid-cols-2 sm:gap-3 xl:grid-cols-4">
                       <MetricSummaryCard
                         label="Limpieza"
-                        value={formatAverage(medias.limpieza)}
+                        value={<RatingAverage value={medias.limpieza} />}
                         tone="emerald"
                         bodyClassName="p-2 sm:p-4"
                         labelClassName="text-[10px] font-medium uppercase leading-tight tracking-wide text-ui-text-secondary sm:text-xs"
@@ -289,7 +302,7 @@ export default function MiReputacion() {
                       />
                       <MetricSummaryCard
                         label="Ruido"
-                        value={formatAverage(medias.ruido)}
+                        value={<RatingAverage value={medias.limpieza} />}
                         tone="default"
                         bodyClassName="p-2 sm:p-4"
                         labelClassName="text-[10px] font-medium uppercase leading-tight tracking-wide text-ui-text-secondary sm:text-xs"
@@ -298,7 +311,7 @@ export default function MiReputacion() {
                       />
                       <MetricSummaryCard
                         label="Pagos"
-                        value={formatAverage(medias.puntualidad_pagos)}
+                        value={<RatingAverage value={medias.limpieza} />}
                         tone="sky"
                         bodyClassName="p-2 sm:p-4"
                         labelClassName="text-[10px] font-medium uppercase leading-tight tracking-wide text-ui-text-secondary sm:text-xs"

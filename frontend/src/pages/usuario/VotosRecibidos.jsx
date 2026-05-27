@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Modal from "../../components/ui/Modal.jsx";
 import MetricSummaryCard from "../../components/ui/MetricSummaryCard.jsx";
 import ResponsiveDisclosureCard from "../../components/ui/ResponsiveDisclosureCard.jsx";
+import RatingValue from "../../components/ui/RatingValue.jsx";
 import useAuth from "../../hooks/useAuth.js";
 import { listReceivedVotes } from "../../services/votoUsuarioService.js";
 
@@ -422,7 +423,7 @@ export default function VotosRecibidos() {
                                 Limpieza
                               </p>
                               <p className="mt-1 text-lg font-semibold text-ui-text">
-                                {item.limpieza}/5
+                                <RatingValue value={item.limpieza} />
                               </p>
                             </div>
 
@@ -431,7 +432,7 @@ export default function VotosRecibidos() {
                                 Ruido
                               </p>
                               <p className="mt-1 text-lg font-semibold text-ui-text">
-                                {item.ruido}/5
+                                <RatingValue value={item.limpieza} />
                               </p>
                             </div>
 
@@ -440,7 +441,7 @@ export default function VotosRecibidos() {
                                 Pagos
                               </p>
                               <p className="mt-1 text-lg font-semibold text-ui-text">
-                                {item.puntualidad_pagos}/5
+                                <RatingValue value={item.limpieza} />
                               </p>
                             </div>
 

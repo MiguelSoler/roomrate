@@ -2,10 +2,8 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import MetricSummaryCard from "../../components/ui/MetricSummaryCard.jsx";
 import Modal from "../../components/ui/Modal.jsx";
-import {
-  getUserVotesSummary,
-  listReceivedVotes,
-} from "../../services/votoUsuarioService.js";
+import RatingValue from "../../components/ui/RatingValue.jsx";
+import { getUserVotesSummary, listReceivedVotes } from "../../services/votoUsuarioService.js";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
@@ -45,6 +43,24 @@ function formatMetric(value) {
   const n = Number(value);
   if (!Number.isFinite(n)) return "—";
   return n.toFixed(1);
+}
+
+function RatingMetric({ value }) {
+  const formatted = formatMetric(value);
+
+  if (formatted === "—") {
+    return "—";
+  }
+
+  return <RatingValue value={formatted} />;
+}
+
+function RatingScore({ value }) {
+  if (value === null || value === undefined || value === "") {
+    return "—";
+  }
+
+  return <RatingValue value={value} />;
 }
 
 function formatDate(value) {
@@ -294,7 +310,7 @@ export default function UsuarioPublicDetail() {
                 <div className="grid grid-cols-4 gap-1.5 sm:grid-cols-2 sm:gap-3 xl:grid-cols-4">
                   <MetricSummaryCard
                     label="Limpieza"
-                    value={formatMetric(mediaLimpieza)}
+                    value={<RatingMetric value={mediaLimpieza} />}
                     tone="emerald"
                     bodyClassName="p-2 sm:p-4"
                     labelClassName="text-[10px] font-medium uppercase leading-tight tracking-wide text-ui-text-secondary sm:text-xs"
@@ -303,7 +319,7 @@ export default function UsuarioPublicDetail() {
                   />
                   <MetricSummaryCard
                     label="Ruido"
-                    value={formatMetric(mediaRuido)}
+                    value={<RatingMetric value={mediaRuido} />}
                     tone="default"
                     bodyClassName="p-2 sm:p-4"
                     labelClassName="text-[10px] font-medium uppercase leading-tight tracking-wide text-ui-text-secondary sm:text-xs"
@@ -312,7 +328,7 @@ export default function UsuarioPublicDetail() {
                   />
                   <MetricSummaryCard
                     label="Pagos"
-                    value={formatMetric(mediaPagos)}
+                    value={<RatingMetric value={mediaPagos} />}
                     tone="sky"
                     bodyClassName="p-2 sm:p-4"
                     labelClassName="text-[10px] font-medium uppercase leading-tight tracking-wide text-ui-text-secondary sm:text-xs"
@@ -479,7 +495,7 @@ export default function UsuarioPublicDetail() {
                                     Limpieza
                                   </p>
                                   <p className="mt-2 text-lg font-bold text-ui-text">
-                                    {vote.limpieza ?? "—"}
+                                    <RatingScore value={vote.limpieza} />
                                   </p>
                                 </div>
 
@@ -488,7 +504,7 @@ export default function UsuarioPublicDetail() {
                                     Ruido
                                   </p>
                                   <p className="mt-2 text-lg font-bold text-ui-text">
-                                    {vote.ruido ?? "—"}
+                                    <RatingScore value={vote.ruido} />
                                   </p>
                                 </div>
 
@@ -497,7 +513,7 @@ export default function UsuarioPublicDetail() {
                                     Pagos
                                   </p>
                                   <p className="mt-2 text-lg font-bold text-ui-text">
-                                    {vote.puntualidad_pagos ?? "—"}
+                                    <RatingScore value={vote.puntualidad_pagos} />
                                   </p>
                                 </div>
                               </div>

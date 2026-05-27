@@ -6,6 +6,7 @@ import PageShell from "../../components/layout/PageShell.jsx";
 import { getApiErrorMessage } from "../../services/apiClient.js";
 import { listHabitaciones } from "../../services/habitacionService.js";
 import useAuth from "../../hooks/useAuth.js";
+import RatingValue from "../../components/ui/RatingValue";
 
 function formatEur(value) {
   const n = Number(value);
@@ -668,7 +669,11 @@ export default function HabitacionesList() {
                           </div>
 
                           <div className={reputationVisuals.bubbleClass}>
-                            {convivenciaMedia}
+                            {hasVisibleReputation ? (
+                              <RatingValue value={convivenciaMedia} />
+                            ) : (
+                              convivenciaMedia
+                            )}
                           </div>
                         </div>
 

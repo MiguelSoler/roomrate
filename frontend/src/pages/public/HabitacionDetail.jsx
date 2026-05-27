@@ -5,6 +5,7 @@ import PageShell from "../../components/layout/PageShell.jsx";
 import MetricSummaryCard from "../../components/ui/MetricSummaryCard.jsx";
 import Modal from "../../components/ui/Modal.jsx";
 import ResponsiveDisclosureCard from "../../components/ui/ResponsiveDisclosureCard.jsx";
+import RatingValue from "../../components/ui/RatingValue.jsx";
 import { getApiErrorMessage } from "../../services/apiClient.js";
 import { getHabitacionById } from "../../services/habitacionService.js";
 
@@ -108,6 +109,16 @@ function Feature({ label, value }) {
   );
 }
 
+function RatingMetric({ value, className = "" }) {
+  const formatted = formatMetric(value);
+
+  if (formatted === "—") {
+    return <span className={className}>—</span>;
+  }
+
+  return <RatingValue value={formatted} className={className} />;
+}
+
 function PersonAvatar({ entity, onOpen, sizeClassName = "h-14 w-14" }) {
   const imageUrl = buildImageUrl(entity?.foto_perfil_url);
 
@@ -205,7 +216,7 @@ function MiniVoteList({
             )}
 
             <span className="text-xs font-semibold text-ui-text">
-              {item.valor}/5
+              <RatingValue value={item.valor} />
             </span>
           </div>
         );
@@ -248,7 +259,7 @@ function ConvivienteMetricPanel({
       </p>
 
       <p className="mt-1 text-lg font-semibold text-ui-text">
-        {value}
+        <RatingMetric value={value} />
       </p>
 
       <MiniVoteList
@@ -887,7 +898,7 @@ export default function HabitacionDetail() {
             <div className="grid grid-cols-3 gap-1.5 min-[520px]:grid-cols-5 sm:gap-3">
               <MetricSummaryCard
                 label="Media global"
-                value={convivenciaMediaGlobal}
+                value={<RatingMetric value={convivenciaMediaGlobal} />}
                 tone="violet"
                 bodyClassName="p-2 sm:p-4"
                 labelClassName="text-[10px] font-medium uppercase leading-tight tracking-wide text-ui-text-secondary sm:text-xs"
@@ -896,7 +907,7 @@ export default function HabitacionDetail() {
               />
               <MetricSummaryCard
                 label="Limpieza"
-                value={convivenciaLimpieza}
+                value={<RatingMetric value={convivenciaLimpieza} />}
                 tone="emerald"
                 bodyClassName="p-2 sm:p-4"
                 labelClassName="text-[10px] font-medium uppercase leading-tight tracking-wide text-ui-text-secondary sm:text-xs"
@@ -905,7 +916,7 @@ export default function HabitacionDetail() {
               />
               <MetricSummaryCard
                 label="Ruido"
-                value={convivenciaRuido}
+                value={<RatingMetric value={convivenciaRuido} />}
                 tone="amber"
                 bodyClassName="p-2 sm:p-4"
                 labelClassName="text-[10px] font-medium uppercase leading-tight tracking-wide text-ui-text-secondary sm:text-xs"
@@ -914,7 +925,7 @@ export default function HabitacionDetail() {
               />
               <MetricSummaryCard
                 label="Pagos"
-                value={convivenciaPagos}
+                value={<RatingMetric value={convivenciaPagos} />}
                 tone="sky"
                 bodyClassName="p-2 sm:p-4"
                 labelClassName="text-[10px] font-medium uppercase leading-tight tracking-wide text-ui-text-secondary sm:text-xs"
@@ -940,9 +951,10 @@ export default function HabitacionDetail() {
               <div className="mt-3 grid grid-cols-1 gap-2 md:grid-cols-3">
                 <p className="text-sm text-ui-text-secondary">
                   Media global visible del piso:{" "}
-                  <span className="font-semibold text-ui-text">
-                    {convivenciaMediaGlobal}
-                  </span>
+                  <RatingMetric
+                    value={convivenciaMediaGlobal}
+                    className="font-semibold text-ui-text"
+                  />
                 </p>
 
                 <p className="text-sm text-ui-text-secondary">
