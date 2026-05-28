@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import PageShell from "../../components/layout/PageShell.jsx";
 import Modal from "../../components/ui/Modal.jsx";
+import RatingValue from "../../components/ui/RatingValue.jsx";
 import { getApiErrorMessage } from "../../services/apiClient.js";
 import {
   addAdminHabitacionFoto,
@@ -82,6 +83,16 @@ function formatMetric(value) {
   const n = Number(value);
   if (!Number.isFinite(n)) return "—";
   return n.toFixed(1);
+}
+
+function RatingMetric({ value }) {
+  const formatted = formatMetric(value);
+
+  if (formatted === "—") {
+    return "—";
+  }
+
+  return <RatingValue value={formatted} />;
 }
 
 function buildFormFromHabitacion(habitacion) {
@@ -1825,23 +1836,20 @@ export default function HabitacionManagerDetail() {
                                   />
                                   <CompactMetricCard
                                     title="Limpieza"
-                                    value={formatMetric(
-                                      candidateResult.reputacion?.global?.medias?.limpieza
-                                    )}
+                                    value={
+                                      <RatingMetric value={candidateResult.reputacion?.global?.medias?.limpieza} /> }
                                     tone="success"
                                   />
                                   <CompactMetricCard
                                     title="Ruido"
-                                    value={formatMetric(
-                                      candidateResult.reputacion?.global?.medias?.ruido
-                                    )}
+                                    value={
+                                      <RatingMetric value={candidateResult.reputacion?.global?.medias?.ruido} /> }
                                     tone="warning"
                                   />
                                   <CompactMetricCard
                                     title="Pagos"
-                                    value={formatMetric(
-                                      candidateResult.reputacion?.global?.medias?.puntualidad_pagos
-                                    )}
+                                    value={
+                                      <RatingMetric value={candidateResult.reputacion?.global?.medias?.puntualidad_pagos} />}
                                     tone="info"
                                   />
                                 </div>
@@ -2008,19 +2016,17 @@ export default function HabitacionManagerDetail() {
                                               <div className="grid grid-cols-4 gap-1.5 sm:gap-3">
                                                 <CompactMetricCard
                                                   title="Limpieza"
-                                                  value={formatMetric(item.reputacion?.medias?.limpieza)}
+                                                  value={<RatingMetric value={item.reputacion?.medias?.limpieza} />}
                                                   tone="success"
                                                 />
                                                 <CompactMetricCard
                                                   title="Ruido"
-                                                  value={formatMetric(item.reputacion?.medias?.ruido)}
+                                                  value={<RatingMetric value={item.reputacion?.medias?.ruido} />}
                                                   tone="warning"
                                                 />
                                                 <CompactMetricCard
                                                   title="Pagos"
-                                                  value={formatMetric(
-                                                    item.reputacion?.medias?.puntualidad_pagos
-                                                  )}
+                                                  value={<RatingMetric value={item.reputacion?.medias?.puntualidad_pagos} />}
                                                   tone="info"
                                                 />
                                                 <CompactMetricCard
@@ -2217,20 +2223,20 @@ export default function HabitacionManagerDetail() {
                                     </div>
                                   </div>
 
-                                  <div className="grid grid-cols-3 gap-1.5 sm:gap-3">
+                                  <div className="grid grid-cols-3 gap-1.5 sm:gap-3 lg:hidden">
                                     <CompactMetricCard
                                       title="Limpieza"
-                                      value={formatMetric(reputacionPiso.limpieza)}
+                                      value={<RatingMetric value={reputacionPiso.limpieza} />}
                                       tone="success"
                                     />
                                     <CompactMetricCard
                                       title="Ruido"
-                                      value={formatMetric(reputacionPiso.ruido)}
+                                      value={<RatingMetric value={reputacionPiso.ruido} />}
                                       tone="warning"
                                     />
                                     <CompactMetricCard
                                       title="Pagos"
-                                      value={formatMetric(reputacionPiso.puntualidad_pagos)}
+                                      value={<RatingMetric value={reputacionPiso.puntualidad_pagos} />}
                                       tone="info"
                                     />
                                   </div>
@@ -2252,17 +2258,17 @@ export default function HabitacionManagerDetail() {
                                     <div className="mt-4 grid grid-cols-3 gap-1.5 sm:gap-3">
                                       <CompactMetricCard
                                         title="Limpieza"
-                                        value={formatMetric(reputacionGlobal.limpieza)}
+                                        value={<RatingMetric value={reputacionGlobal.limpieza} />}
                                         tone="success"
                                       />
                                       <CompactMetricCard
                                         title="Ruido"
-                                        value={formatMetric(reputacionGlobal.ruido)}
+                                        value={<RatingMetric value={reputacionGlobal.ruido} />}
                                         tone="warning"
                                       />
                                       <CompactMetricCard
                                         title="Pagos"
-                                        value={formatMetric(reputacionGlobal.puntualidad_pagos)}
+                                        value={<RatingMetric value={reputacionGlobal.puntualidad_pagos} />}
                                         tone="info"
                                       />
                                     </div>
@@ -2281,17 +2287,17 @@ export default function HabitacionManagerDetail() {
                                     <div className="mt-4 grid grid-cols-3 gap-1.5 sm:gap-3">
                                       <CompactMetricCard
                                         title="Limpieza"
-                                        value={formatMetric(reputacionPiso.limpieza)}
+                                        value={<RatingMetric value={reputacionPiso.limpieza} />}
                                         tone="success"
                                       />
                                       <CompactMetricCard
                                         title="Ruido"
-                                        value={formatMetric(reputacionPiso.ruido)}
+                                        value={<RatingMetric value={reputacionPiso.ruido} />}
                                         tone="warning"
                                       />
                                       <CompactMetricCard
                                         title="Pagos"
-                                        value={formatMetric(reputacionPiso.puntualidad_pagos)}
+                                        value={<RatingMetric value={reputacionPiso.puntualidad_pagos} />}
                                         tone="info"
                                       />
                                     </div>

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import PageShell from "../../components/layout/PageShell.jsx";
 import Modal from "../../components/ui/Modal.jsx";
+import RatingValue from "../../components/ui/RatingValue.jsx";
 import { getApiErrorMessage } from "../../services/apiClient.js";
 import {
   deleteAdminUsuarioFoto,
@@ -262,6 +263,24 @@ function formatMetric(value) {
   const n = Number(value);
   if (!Number.isFinite(n)) return "—";
   return n.toFixed(1);
+}
+
+function RatingMetric({ value }) {
+  const formatted = formatMetric(value);
+
+  if (formatted === "—") {
+    return "—";
+  }
+
+  return <RatingValue value={formatted} />;
+}
+
+function RatingScore({ value }) {
+  if (value === null || value === undefined || value === "") {
+    return "—";
+  }
+
+  return <RatingValue value={value} />;
 }
 
 function getSummaryMetrics(summaryData) {
@@ -1584,7 +1603,7 @@ export default function UsuarioAdminDetail() {
                 Limpieza
               </p>
               <p className="mt-2 text-lg font-bold text-ui-text">
-                {vote.limpieza ?? "—"}
+                <RatingScore value={vote.limpieza} />
               </p>
             </div>
 
@@ -1593,7 +1612,7 @@ export default function UsuarioAdminDetail() {
                 Ruido
               </p>
               <p className="mt-2 text-lg font-bold text-ui-text">
-                {vote.ruido ?? "—"}
+                <RatingScore value={vote.ruido} />
               </p>
             </div>
 
@@ -1602,7 +1621,7 @@ export default function UsuarioAdminDetail() {
                 Pagos
               </p>
               <p className="mt-2 text-lg font-bold text-ui-text">
-                {vote.puntualidad_pagos ?? "—"}
+                <RatingScore value={vote.puntualidad_pagos} />
               </p>
             </div>
           </div>
@@ -1670,17 +1689,17 @@ export default function UsuarioAdminDetail() {
               <div className="mt-3 grid grid-cols-3 gap-2">
                 <CompactMetricCard
                   title="Limp."
-                  value={vote.limpieza ?? "—"}
+                  value={<RatingScore value={vote.limpieza} />}
                   tone="success"
                 />
                 <CompactMetricCard
                   title="Ruido"
-                  value={vote.ruido ?? "—"}
+                  value={<RatingScore value={vote.ruido} />}
                   tone="warning"
                 />
                 <CompactMetricCard
                   title="Pagos"
-                  value={vote.puntualidad_pagos ?? "—"}
+                  value={<RatingScore value={vote.puntualidad_pagos} />}
                   tone="info"
                 />
               </div>
@@ -1778,17 +1797,17 @@ export default function UsuarioAdminDetail() {
           <div className="grid grid-cols-4 gap-2 sm:gap-3">
             <CompactMetricCard
               title="Limpieza"
-              value={formatMetric(summaryMetrics.limpieza)}
+              value={<RatingMetric value={summaryMetrics.limpieza} />}
               tone="success"
             />
             <CompactMetricCard
               title="Ruido"
-              value={formatMetric(summaryMetrics.ruido)}
+              value={<RatingMetric value={summaryMetrics.ruido} />}
               tone="warning"
             />
             <CompactMetricCard
               title="Pagos"
-              value={formatMetric(summaryMetrics.pagos)}
+              value={<RatingMetric value={summaryMetrics.pagos} />}
               tone="info"
             />
             <CompactMetricCard

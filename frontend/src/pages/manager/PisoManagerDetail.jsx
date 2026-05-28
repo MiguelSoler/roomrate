@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import PageShell from "../../components/layout/PageShell.jsx";
 import Modal from "../../components/ui/Modal.jsx";
+import RatingValue from "../../components/ui/RatingValue.jsx";
 import { getApiErrorMessage } from "../../services/apiClient.js";
 import {
   addAdminPisoFoto,
@@ -73,6 +74,16 @@ function formatMetric(value) {
   const n = Number(value);
   if (!Number.isFinite(n)) return "—";
   return n.toFixed(1);
+}
+
+function RatingMetric({ value, className = "" }) {
+  const formatted = formatMetric(value);
+
+  if (formatted === "—") {
+    return <span className={className}>—</span>;
+  }
+
+  return <RatingValue value={formatted} className={className} />;
 }
 
 function buildPisoFormFromPiso(piso) {
@@ -156,7 +167,7 @@ function MiniVoteList({ items = [], onOpen }) {
             )}
 
             <span className="text-xs font-semibold text-ui-text">
-              {item.valor}/5
+              <RatingValue value={item.valor} />
             </span>
           </div>
         );
@@ -1607,25 +1618,23 @@ export default function PisoManagerDetail() {
                             <div className="grid min-w-[620px] grid-cols-5 gap-2 pb-1">
                               <CompactMetricCard
                                 label="Global"
-                                value={formatMetric(convivenciaResumen?.media_global)}
+                                value={<RatingMetric value={convivenciaResumen?.media_global} />}
                                 tone="fuchsia"
                                 strong
                               />
                               <CompactMetricCard
                                 label="Limpieza"
-                                value={formatMetric(convivenciaResumen?.medias?.limpieza)}
+                                value={<RatingMetric value={convivenciaResumen?.medias?.limpieza} />}
                                 tone="emerald"
                               />
                               <CompactMetricCard
                                 label="Ruido"
-                                value={formatMetric(convivenciaResumen?.medias?.ruido)}
+                                value={<RatingMetric value={convivenciaResumen?.medias?.ruido} />}
                                 tone="amber"
                               />
                               <CompactMetricCard
                                 label="Pagos"
-                                value={formatMetric(
-                                  convivenciaResumen?.medias?.puntualidad_pagos
-                                )}
+                                value={<RatingMetric value={convivenciaResumen?.medias?.puntualidad_pagos} />}
                                 tone="sky"
                               />
                               <CompactMetricCard
@@ -1644,7 +1653,7 @@ export default function PisoManagerDetail() {
                                 Media global
                               </p>
                               <p className="mt-2 text-2xl font-bold text-ui-text">
-                                {formatMetric(convivenciaResumen?.media_global)}
+                                <RatingMetric value={convivenciaResumen?.media_global} />
                               </p>
                             </div>
                           </div>
@@ -1655,7 +1664,7 @@ export default function PisoManagerDetail() {
                                 Limpieza media
                               </p>
                               <p className="mt-2 text-2xl font-bold text-ui-text">
-                                {formatMetric(convivenciaResumen?.medias?.limpieza)}
+                                <RatingMetric value={convivenciaResumen?.medias?.limpieza} />
                               </p>
                             </div>
                           </div>
@@ -1666,7 +1675,7 @@ export default function PisoManagerDetail() {
                                 Ruido medio
                               </p>
                               <p className="mt-2 text-2xl font-bold text-ui-text">
-                                {formatMetric(convivenciaResumen?.medias?.ruido)}
+                                <RatingMetric value={convivenciaResumen?.medias?.ruido} />
                               </p>
                             </div>
                           </div>
@@ -1677,9 +1686,7 @@ export default function PisoManagerDetail() {
                                 Pagos medios
                               </p>
                               <p className="mt-2 text-2xl font-bold text-ui-text">
-                                {formatMetric(
-                                  convivenciaResumen?.medias?.puntualidad_pagos
-                                )}
+                                <RatingMetric value={convivenciaResumen?.medias?.puntualidad_pagos} />
                               </p>
                             </div>
                           </div>
@@ -1705,7 +1712,10 @@ export default function PisoManagerDetail() {
                             <p className="text-sm text-ui-text-secondary">
                               Media global actual del piso:{" "}
                               <span className="font-semibold text-ui-text">
-                                {formatMetric(convivenciaResumen?.media_global)}
+                                <RatingMetric
+                                  value={convivenciaResumen?.media_global}
+                                  className="font-semibold text-ui-text"
+                                />
                               </span>
                             </p>
 
@@ -1843,7 +1853,7 @@ export default function PisoManagerDetail() {
                                             Limpieza
                                           </p>
                                           <p className="mt-1 text-lg font-semibold text-ui-text">
-                                            {formatMetric(reputacionActual?.medias?.limpieza)}
+                                            <RatingMetric value={reputacionActual?.medias?.limpieza} />
                                           </p>
                                           <MiniVoteList
                                             items={limpiezaVotes}
@@ -1856,7 +1866,7 @@ export default function PisoManagerDetail() {
                                             Ruido
                                           </p>
                                           <p className="mt-1 text-lg font-semibold text-ui-text">
-                                            {formatMetric(reputacionActual?.medias?.ruido)}
+                                            <RatingMetric value={reputacionActual?.medias?.ruido} />
                                           </p>
                                           <MiniVoteList
                                             items={ruidoVotes}
@@ -1869,9 +1879,7 @@ export default function PisoManagerDetail() {
                                             Puntualid. pagos
                                           </p>
                                           <p className="mt-1 text-lg font-semibold text-ui-text">
-                                            {formatMetric(
-                                              reputacionActual?.medias?.puntualidad_pagos
-                                            )}
+                                            <RatingMetric value={reputacionActual?.medias?.puntualidad_pagos} />
                                           </p>
                                           <MiniVoteList
                                             items={pagosVotes}
