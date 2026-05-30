@@ -36,12 +36,12 @@ export default function Home() {
 
               <div className="mt-3 max-w-3xl space-y-2 sm:mt-4 sm:space-y-3">
                 <h1 className="text-3xl font-bold tracking-tight text-ui-text sm:text-5xl lg:text-[56px] lg:leading-tight">
-                  Encuentra habitación sabiendo lo que te vas a encontrar
+                  Encuentra habitación sabiendo lo que te vas a encontrar en el piso
                 </h1>
 
                 <p className="max-w-2xl text-sm leading-6 text-ui-text-secondary sm:text-base">
                   RoomRate une anuncios de habitaciones con información de
-                  convivencia para ayudarte a decidir mejor antes de mudarte.<br />
+                  convivencia como valoraciones en LIMPIEZA, RUIDO y PUNTUALIDAD DE PAGOS <br />
                   ¡Únete ahora y vota a tus compañeros de piso!
                 </p>
               </div>
@@ -92,7 +92,7 @@ export default function Home() {
                     Busca habitaciones
                   </h2>
                   <p className="mt-1 text-xs leading-5 text-ui-text-secondary sm:text-sm">
-                    Consulta precio, ciudad y detalles relevantes.
+                    Consulta la reputación de los pisos en donde te gustaría vivir
                   </p>
                 </div>
 
@@ -101,7 +101,7 @@ export default function Home() {
                     Con más contexto
                   </h2>
                   <p className="mt-1 text-xs leading-5 text-ui-text-secondary sm:text-sm">
-                    Revisa señales útiles sobre la convivencia.
+                    Verás las valoraciones de tus potenciales compañeros de piso
                   </p>
                 </div>
 
@@ -110,7 +110,7 @@ export default function Home() {
                     Más confianza
                   </h2>
                   <p className="mt-1 text-xs leading-5 text-ui-text-secondary sm:text-sm">
-                    Decide mejor antes de elegir piso.
+                    ¡Así podrás saber qué te espera en ese piso!
                   </p>
                 </div>
               </div>
@@ -128,7 +128,7 @@ export default function Home() {
                       1. Busca habitación
                     </p>
                     <p className="mt-1 text-sm text-ui-text-secondary">
-                      Filtra por ubicación, precio y características.
+                      Filtra por reputación, precio, ubicación y más características
                     </p>
                   </div>
 
@@ -137,7 +137,7 @@ export default function Home() {
                       2. Revisa el ambiente
                     </p>
                     <p className="mt-1 text-sm text-ui-text-secondary">
-                      Consulta información útil sobre convivencia.
+                      Puedes ver las valoraciones de tus futuros compañeros en LIMPIEZA, RUIDO y PUNTUALIDAD DE PAGOS 
                     </p>
                   </div>
 
@@ -146,9 +146,19 @@ export default function Home() {
                       3. Decide con criterio
                     </p>
                     <p className="mt-1 text-sm text-ui-text-secondary">
-                      Elige con más seguridad antes de mudarte.
+                      De este modo conocerás el ambiente que te vas a encontrar antes de mudarte
                     </p>
                   </div>
+
+                  <div className={stepCardClass}>
+                    <p className="text-sm font-bold text-ui-text">
+                      4. Anuncia tus habitaciones
+                    </p>
+                    <p className="mt-1 text-sm text-ui-text-secondary">
+                      Si lo que quieres es publicar tus propios anuncios, conviértete en anunciante desde tu perfil y crea habitaciones
+                    </p>
+                  </div>
+
                 </div>
               </div>
             </div>

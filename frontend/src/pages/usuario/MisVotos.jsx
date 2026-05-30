@@ -158,8 +158,7 @@ export default function MisVotos() {
                       Mis votos
                     </h1>
                     <p className="mt-2 max-w-2xl text-sm text-ui-text-secondary">
-                      Revisa tus votos emitidos y gestiona únicamente los que siguen
-                      abiertos por convivencia actual.
+                      Revisa tus votos emitidos. Puedes modificar tu voto, pero sólo si sigues conviviendo con esa persona
                     </p>
                   </div>
                 </div>
@@ -412,14 +411,14 @@ export default function MisVotos() {
                             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
                               <p className="text-sm text-ui-text-secondary">
                                 Ya no convivís actualmente en este piso, así que este voto se mantiene
-                                como histórico y no puede editarse.
+                                como histórico y ya no puede modificarse.
                               </p>
                             </div>
                           ) : (
                             <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
                               <p className="text-sm text-emerald-800">
                                 Seguís conviviendo actualmente en este piso, por lo que todavía
-                                puedes editar este voto.
+                                puedes modificar este voto.
                               </p>
                             </div>
                           )}

@@ -161,7 +161,7 @@ export default function Navbar() {
                     </NavLink>
                               
                     <NavLink className={desktopNavLink} to="/convivientes">
-                      Convivientes
+                      Mis compañeros
                     </NavLink>
                               
                     <NavLink className={desktopNavLink} to="/mis-votos">
@@ -276,7 +276,7 @@ export default function Navbar() {
                       to="/convivientes"
                       onClick={closeMobileMenu}
                     >
-                      Convivientes
+                      Mis compañeros
                     </NavLink>
 
                     <NavLink

@@ -154,11 +154,11 @@ export default function Convivientes() {
 
                 <div>
                   <h1 className="text-3xl font-bold tracking-tight text-ui-text">
-                    Mis convivientes
+                    Mis compañeros
                   </h1>
                   <p className="mt-2 max-w-2xl text-sm text-ui-text-secondary">
                     Personas que conviven actualmente contigo en el piso y a las
-                    que puedes valorar mientras compartís estancia activa.
+                    que podrás valorar durante el tiempo que vivais juntos.
                   </p>
                 </div>
               </div>
